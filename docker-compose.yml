@@ -1,0 +1,91 @@
+version: "3"
+
+services:
+  php:
+    build: ./image-php
+    volumes:
+      - "./app:/var/www/html"
+      - "./conf/php/mail.ini:/usr/local/etc/php/conf.d/mail.ini"
+      - "./conf/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini"
+    ports:
+      - "80:80"
+    networks:
+      - front-net
+      - back-net
+
+  mariadb:
+    image: mariadb
+    volumes:
+      - "db-data-mariadb:/var/lib/mysql"
+      - "./db-init-mariadb:/docker-entrypoint-initdb.d"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=app
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=pass
+    networks:
+      - back-net
+
+  mysql:
+    image: mysql
+    volumes:
+      - "db-data-mysql:/var/lib/mysql"
+      - "./db-init-mysql:/docker-entrypoint-initdb.d"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=app
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=pass
+    networks:
+      - back-net
+
+  postgres:
+    image: postgres:alpine
+    volumes:
+      - "db-data-postgres:/var/lib/postgresql/data"
+      - "./db-init-postgres:/docker-entrypoint-initdb.d"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=pass
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - "db-data-redis:/data"
+    networks:
+      - back-net
+
+  memcached:
+    image: memcached:alpine
+    networks:
+      - back-net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    volumes:
+      - "./conf/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php"
+    ports:
+      - "8081:80"
+    networks:
+      - back-net
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - back-net
+
+volumes:
+  db-data-mariadb:
+  db-data-mysql:
+  db-data-postgres:
+  db-data-redis:
+
+networks:
+  front-net:
+  back-net:
+
+
+# vim: ai expandtab ts=2 sts=2 sw=2
