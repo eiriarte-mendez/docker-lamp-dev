@@ -5,8 +5,13 @@ MAINTAINER Robert Schneider <shakemedev@gmail.com>
 RUN apt-get update \
     && apt-get install --assume-yes \
         ssmtp \
+        libicu-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
         libmemcached-dev \
+        libpng-dev \
         libpq-dev \
+        libxslt1-dev \
         zlib1g-dev
 
 RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
@@ -15,13 +20,27 @@ RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
     && echo "localhost localhost.localdomain" >> /etc/hosts
 
 
-RUN docker-php-ext-install \
+RUN docker-php-ext-configure \
+        gd --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install \
         mysqli \
+        mcrypt \
+        xsl \
+        intl \
+        soap \
+        zip \
+        gd \
         pdo \
         pdo_mysql \
         pdo_pgsql \
     && docker-php-ext-enable \
         mysqli \
+        mcrypt \
+        xsl \
+        intl \
+        soap \
+        zip \
+        gd \
         pdo \
         pdo_mysql \
         pdo_pgsql
