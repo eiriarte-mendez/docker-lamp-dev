@@ -14,6 +14,7 @@ RUN echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
     && echo "mailhub=mailhog:1025" >> /etc/ssmtp/ssmtp.conf \
     && echo "localhost localhost.localdomain" >> /etc/hosts
 
+RUN a2enmod rewrite
 
 RUN docker-php-ext-install \
         mysqli \
