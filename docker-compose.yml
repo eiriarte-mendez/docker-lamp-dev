@@ -4,7 +4,7 @@ services:
   php:
     build:
       context: ./image-php
-      dockerfile: Dockerfile${PHP_VERSION}
+      dockerfile: Dockerfile_${PHP_VERSION}
     volumes:
       - "./app:/var/www/html"
       - "./conf/php/mail.ini:/usr/local/etc/php/conf.d/mail.ini"

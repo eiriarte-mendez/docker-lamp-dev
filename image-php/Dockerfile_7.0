@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:7.0-apache
 
 MAINTAINER Robert Schneider <shakemedev@gmail.com>
 

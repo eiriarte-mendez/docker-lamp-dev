@@ -12,3 +12,4 @@ It's possible to provide some information via environment variables. You can def
 
 - PHP_VERSION
 	- 5.6
+	- 7.0
