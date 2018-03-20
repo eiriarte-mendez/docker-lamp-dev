@@ -11,5 +11,7 @@ Run the stack
 It's possible to provide some information via environment variables. You can define them manually or use the .env file.
 
 - PHP_VERSION
+	- 5.4
 	- 5.6
 	- 7.0
+	
